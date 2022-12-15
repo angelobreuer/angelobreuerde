@@ -1,4 +1,4 @@
-import { Component, ReactNode, useState } from 'react'
+import { Component, ReactNode, useEffect, useState } from 'react'
 
 const WaveSvgHeight = 260
 
@@ -86,30 +86,18 @@ const ProjectStatsView = ({ name }: { name: string }) => {
   </div>
 }
 
-class Cursor extends Component<{}, { blink: boolean }> {
-  private timeout?: number
+function Cursor() {
+  const [blink, setBlink] = useState(false)
+  const toggleBlink = () => setBlink(blink => !blink)
 
-  constructor(props: {}) {
-    super(props)
-    this.state = { blink: true }
-  }
+  useEffect(() => {
+    const intervalKey = setInterval(toggleBlink, 1000)
+    return () => clearInterval(intervalKey)
+  }, [])
 
-  render(): ReactNode {
-    return <div
-      className='rounded-lg bg-white h-5 -mb-1 inline-block'
-      style={{ width: '2px', opacity: this.state.blink ? 0 : 1 }} />
-  }
-
-  componentDidMount() {
-    this.timeout = setInterval(() => this.setState({ blink: !this.state.blink }), 500);
-  }
-
-  componentWillUnmount() {
-    if (!this.timeout) {
-      clearInterval(this.timeout)
-      this.timeout = undefined
-    }
-  }
+  return <span
+    className='rounded-lg bg-white h-5 -mb-1 w-[2px] inline-block'
+    style={{ opacity: blink ? 1 : 0 }} />
 }
 
 const GitHubPresenter = () => {
