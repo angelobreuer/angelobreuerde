@@ -1,6 +1,3 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Link from 'next/link'
 import { Component, ReactNode, useState } from 'react'
 
 const WaveSvgHeight = 260
@@ -90,7 +87,7 @@ const ProjectStatsView = ({ name }: { name: string }) => {
 }
 
 class Cursor extends Component<{}, { blink: boolean }> {
-  timeout?: NodeJS.Timeout
+  private timeout?: number
 
   constructor(props: {}) {
     super(props)
@@ -133,9 +130,9 @@ const Navbar = () => {
     <div id='brand' className='uppercase font-bold'>Angelo Breuer</div>
 
     <ul className='list-none flex lg:space-x-12 space-x-4 ml-auto'>
-      <li className='block'><Link href="#home">Home</Link></li>
-      <li className='block'><Link href="#about">About</Link></li>
-      <li className='block'><Link href="#projects">Projects</Link></li>
+      <li className='block'><a href="#home">Home</a></li>
+      <li className='block'><a href="#about">About</a></li>
+      <li className='block'><a href="#projects">Projects</a></li>
     </ul>
   </nav>
 }
@@ -293,16 +290,9 @@ const Footer = () => {
   </footer>
 }
 
-const Home: NextPage = () => {
+const App = () => {
   return (
     <div>
-      <Head>
-        <title>Angelo Breuer</title>
-        <meta name="description" content="Angelo Breuer - Hard- and Softwareengineer, Freelancer, and tech enthusiast." />
-        <link rel="icon" href="/favicon.ico" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
-
       <Navbar />
       <Landing />
       <AboutMe />
@@ -314,4 +304,4 @@ const Home: NextPage = () => {
   )
 }
 
-export default Home
+export default App
