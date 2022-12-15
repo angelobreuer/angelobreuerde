@@ -183,6 +183,43 @@ const AboutMe = () => {
 }
 
 const Projects = () => {
+  const projectData = [
+    {
+      title: "Lavalink4NET",
+      description: "Lavalink4NET is a popular Lavalink client for discord bots based on the .NET ecosystem. The client supports out of the box auto scaling and node balancing.",
+      githubKey: "angelobreuer/Lavalink4NET",
+      image: {
+        path: '/d4b246b4d93f478383b1d56292339433.png',
+        alt: "Lavalink4NET banner.",
+      },
+    },
+    {
+      title: "Localtunnel .NET",
+      description: "Localtunnel Client is an implementation of a .NET client for routing traffic to a development machine using an exposed public DNS host over the Localtunnel.me network. The program can be installed as an integrated tool or as a library.",
+      githubKey: "angelobreuer/localtunnel.net",
+      image: {
+        path: '/d77da23b4ecc4b16bd8d3fe24b404a7e.png',
+        alt: "Demonstration of the localtunnel client.",
+      },
+    }
+  ]
+
+  const ProjectBanner = ({ project }: { project: typeof projectData[0] }) => {
+    return <div className='flex w-full justify-center items-center'>
+      <div>
+        <img alt={project.image.alt} src={project.image.path} />
+      </div>
+    </div>
+  }
+
+  const ProjectDetails = ({ project }: { project: typeof projectData[0] }) => {
+    return <div className="p-6 pb-0 space-y-4 max-w-5xl">
+      <a href="https://github.com/angelobreuer/localtunnel-client" className="hover:underline font-bold text-2xl">{project.title}</a>
+      <p className='font-mono'>{project.description}</p>
+      <ProjectStatsView name={project.githubKey} />
+    </div>
+  }
+
   return <section
     style={{ backgroundColor: '#131313' }}
     className="relative min-h-screen"
@@ -204,41 +241,26 @@ const Projects = () => {
       </div>
 
       <div className="flex flex-col px-20">
-        <div className="flex lg:flex-row flex-col h-72 justify-center">
-          <div className="lg:w-1/2 px-24 mb-12">
-            <img alt="Lavalink4NET Logo" src='/d4b246b4d93f478383b1d56292339433.png' />
-          </div>
+        {
+          projectData.map((project, index) => {
+            return <div key={project.title} className="grid lg:grid-cols-2 grid-cols-1 mb-32">
+              {index % 2 === 0 ? <>
+                <ProjectDetails project={project} />
+                <ProjectBanner project={project} />
+              </> : <>
+                <div className="lg:block hidden">
+                  <ProjectBanner project={project} />
+                </div>
 
-          <div className="lg:w-1/2 space-y-4 max-w-5xl">
-            <a href="https://github.com/angelobreuer/Lavalink4NET" className="font-bold text-2xl">Lavalink4NET</a>
-            <p className='font-mono'>Lavalink4NET is a popular Lavalink client for discord bots based on the .NET ecosystem. The client supports out of the box auto scaling and node balancing.</p>
-            <ProjectStatsView name="angelobreuer/Lavalink4NET" />
-          </div>
+                <ProjectDetails project={project} />
 
-        </div>
-
-        <div className="flex lg:flex-row flex-col h-72 justify-center">
-          <div className="lg:w-1/2 lg:hidden">
-            <div className='flex justify-center items-center mt-12'>
-              <img alt="Demonstration of the localtunnel client." src='/d77da23b4ecc4b16bd8d3fe24b404a7e.png' />
+                <div className="lg:hidden block">
+                  <ProjectBanner project={project} />
+                </div>
+              </>}
             </div>
-          </div>
-
-          <div className="lg:w-1/2 p-6 pb-0 space-y-4 max-w-5xl">
-            <a href="https://github.com/angelobreuer/localtunnel-client" className="font-bold text-2xl">Localtunnel Client</a>
-
-            <p className='font-mono'>
-              Localtunnel Client is an implementation of a .NET client for routing traffic to a development machine using an exposed public DNS host over the Localtunnel.me network. The program can be installed as an integrated tool or as a library.
-            </p>
-            <ProjectStatsView name="angelobreuer/localtunnel-client" />
-          </div>
-
-          <div className="lg:w-1/2 hidden lg:block">
-            <div className='flex justify-center items-center'>
-              <img alt="Demonstration of the localtunnel client." src='/d77da23b4ecc4b16bd8d3fe24b404a7e.png' />
-            </div>
-          </div>
-        </div>
+          })
+        }
       </div>
     </div>
 
